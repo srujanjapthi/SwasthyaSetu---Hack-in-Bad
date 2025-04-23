@@ -9,6 +9,9 @@ import { connectDB } from "./config/db.js";
 import { setUpCloudinary } from "./config/cloudinary.js";
 
 // Router imports
+import adminRouter from "./routes/admin.route.js";
+import schoolRouter from "./routes/school.route.js";
+import teacherRouter from "./routes/teacher.route.js";
 import studentRouter from "./routes/student.route.js";
 
 const app = express();
@@ -29,6 +32,9 @@ app.get("/api/health", (_req, res) => {
 });
 
 // Routes
+app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/school", schoolRouter);
+app.use("/api/v1/teacher", teacherRouter);
 app.use("/api/v1/student", studentRouter);
 
 app.use((err, _req, res, _next) => {
