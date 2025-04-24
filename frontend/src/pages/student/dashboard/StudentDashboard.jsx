@@ -1,6 +1,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StudentHealthStats from "../components/StudentHealthStats";
 import StudentHealthCharts from "../components/StudentHealthCharts";
+import BadgesAndActivities from "../components/BadgesAndActivities";
+import WeeklyHealthReports from "../components/WeeklyHealthReports";
+// import MedicalRecordsSection from "../components/MedicalRecordsSection";
 
 export default function StudentDashboard() {
   return (
@@ -22,12 +25,13 @@ export default function StudentDashboard() {
           <TabsContent value="health" className="space-y-4">
             <StudentHealthStats />
             <StudentHealthCharts />
+            <BadgesAndActivities />
           </TabsContent>
           <TabsContent value="reports" className="space-y-4">
-            {/* <HealthReports showTable={true} /> */}
+            <WeeklyHealthReports />
           </TabsContent>
           <TabsContent value="records" className="space-y-4">
-            {/* <MedicalRecords /> */}
+            {/* <MedicalRecordsSection /> */}
           </TabsContent>
           <TabsContent value="chat" className="space-y-4">
             {/* <MentalHealthChat /> */}
