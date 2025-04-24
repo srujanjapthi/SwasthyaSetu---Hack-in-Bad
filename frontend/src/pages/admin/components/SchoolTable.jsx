@@ -68,30 +68,28 @@ const SchoolManagement = () => {
   };
   const handleEditSchool = (id) => alert(`Edit School ${id} form opens here.`);
   const handleViewSchool = (id) => alert(`View School ${id} details here.`);
-  const handleImport = () => alert("Import file dialog here.");
-  const handleExport = () => alert("Export CSV/Excel here.");
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
-        <h1 className="text-3xl font-semibold text-gray-900">
+        <h1 className="text-3xl font-semibold text-gray-900 dark:text-white">
           School Management
         </h1>
 
         <div className="flex flex-col sm:flex-row sm:items-center gap-3">
           <button
             onClick={handleAddSchool}
-            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+            className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-700 dark:hover:bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:focus:ring-indigo-500"
           >
             <Plus size={18} />
             Add School
           </button>
-
+{/* 
           <div className="flex gap-2">
             <button
               onClick={handleImport}
-              className="flex items-center gap-1 border border-gray-300 hover:border-indigo-600 text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              className="flex items-center gap-1 border border-gray-300 dark:border-gray-600 hover:border-indigo-600 dark:hover:border-indigo-400 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-300 dark:focus:ring-indigo-500"
               aria-label="Import"
             >
               <Upload size={16} />
@@ -99,13 +97,13 @@ const SchoolManagement = () => {
             </button>
             <button
               onClick={handleExport}
-              className="flex items-center gap-1 border border-gray-300 hover:border-indigo-600 text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              className="flex items-center gap-1 border border-gray-300 dark:border-gray-600 hover:border-indigo-600 dark:hover:border-indigo-400 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 px-3 py-2 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-300 dark:focus:ring-indigo-500"
               aria-label="Export"
             >
               <Download size={16} />
               Export
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -113,21 +111,21 @@ const SchoolManagement = () => {
       <div className="relative max-w-md mb-8">
         <Search
           size={20}
-          className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 pointer-events-none"
+          className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none"
         />
         <input
           type="text"
           placeholder="Search schools..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 transition"
+          className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:focus:ring-indigo-500 focus:border-indigo-400 dark:focus:border-indigo-500 transition bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
         />
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-200">
-        <table className="min-w-full divide-y divide-gray-200 bg-white">
-          <thead className="bg-gray-50">
+      <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 bg-white dark:bg-gray-800">
+          <thead className="bg-gray-50 dark:bg-gray-700">
             <tr>
               {[
                 "Name",
@@ -139,7 +137,7 @@ const SchoolManagement = () => {
               ].map((heading) => (
                 <th
                   key={heading}
-                  className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                  className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-300 uppercase tracking-wider"
                 >
                   {heading}
                 </th>
@@ -147,7 +145,7 @@ const SchoolManagement = () => {
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-gray-100">
+          <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
             <AnimatePresence>
               {filteredSchools.length > 0 ? (
                 filteredSchools.map((school) => (
@@ -157,30 +155,30 @@ const SchoolManagement = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     layout
-                    className="hover:bg-indigo-50 cursor-pointer"
+                    className="hover:bg-indigo-50 dark:hover:bg-gray-700/50 cursor-pointer"
                   >
-                    <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900">
+                    <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
                       {school.name}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-gray-700">
+                    <td className="whitespace-nowrap px-6 py-4 text-gray-700 dark:text-gray-300">
                       {school.district}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-gray-700">
+                    <td className="whitespace-nowrap px-6 py-4 text-gray-700 dark:text-gray-300">
                       {school.state}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-gray-700">
+                    <td className="whitespace-nowrap px-6 py-4 text-gray-700 dark:text-gray-300">
                       {school.studentCount.toLocaleString()}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-gray-700">
+                    <td className="whitespace-nowrap px-6 py-4 text-gray-700 dark:text-gray-300">
                       {school.staffCount.toLocaleString()}
                     </td>
-                    <td className="whitespace-nowrap px-6 py-4 text-right space-x-2">
+                    <td className="whitespace-nowrap px-6 py-4 space-x-3">
                       {/* Action buttons */}
                       <motion.button
                         whileHover={{ scale: 1.2 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => handleViewSchool(school.id)}
-                        className="text-indigo-600 hover:text-indigo-900 focus:outline-none"
+                        className="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 focus:outline-none"
                         aria-label="View"
                         title="View School"
                       >
@@ -191,7 +189,7 @@ const SchoolManagement = () => {
                         whileHover={{ scale: 1.2 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => handleEditSchool(school.id)}
-                        className="text-yellow-500 hover:text-yellow-700 focus:outline-none"
+                        className="text-yellow-500 hover:text-yellow-700 dark:text-yellow-400 dark:hover:text-yellow-300 focus:outline-none"
                         aria-label="Edit"
                         title="Edit School"
                       >
@@ -202,7 +200,7 @@ const SchoolManagement = () => {
                         whileHover={{ scale: 1.2 }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => handleDeleteSchool(school.id)}
-                        className="text-red-600 hover:text-red-800 focus:outline-none"
+                        className="text-red-600 hover:text-red-800 dark:text-red-500 dark:hover:text-red-400 focus:outline-none"
                         aria-label="Delete"
                         title="Delete School"
                       >
@@ -219,7 +217,7 @@ const SchoolManagement = () => {
                 >
                   <td
                     colSpan={6}
-                    className="text-center py-6 text-gray-500 italic select-none"
+                    className="text-center py-6 text-gray-500 dark:text-gray-400 italic select-none"
                   >
                     No schools found matching "{searchTerm}"
                   </td>
@@ -228,29 +226,6 @@ const SchoolManagement = () => {
             </AnimatePresence>
           </tbody>
         </table>
-      </div>
-
-      {/* Footer */}
-      <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-gray-600 text-sm">
-        <p>
-          Showing{" "}
-          <span className="font-semibold">{filteredSchools.length}</span> school
-          {filteredSchools.length !== 1 ? "s" : ""}
-        </p>
-        <div className="flex gap-2">
-          <button
-            disabled
-            className="px-3 py-1 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed select-none"
-          >
-            Previous
-          </button>
-          <button
-            disabled
-            className="px-3 py-1 rounded-md border border-gray-300 text-gray-400 cursor-not-allowed select-none"
-          >
-            Next
-          </button>
-        </div>
       </div>
     </div>
   );
