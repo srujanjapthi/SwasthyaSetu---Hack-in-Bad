@@ -57,7 +57,7 @@ const SchoolManagement = () => {
     (school) =>
       school.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       school.district.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      school.state.toLowerCase().includes(searchTerm.toLowerCase())
+      school.state.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const handleAddSchool = () => alert("Add School form opens here.");
@@ -85,7 +85,7 @@ const SchoolManagement = () => {
             <Plus size={18} />
             Add School
           </button>
-{/* 
+          {/* 
           <div className="flex gap-2">
             <button
               onClick={handleImport}

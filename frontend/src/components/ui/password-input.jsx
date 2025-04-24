@@ -36,7 +36,7 @@ const PasswordInput = forwardRef(
         </div>
       </div>
     );
-  }
+  },
 );
 
 PasswordInput.displayName = "PasswordInput";

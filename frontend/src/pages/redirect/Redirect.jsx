@@ -6,7 +6,7 @@ export default function Redirect({ className = "" }) {
     <div
       className={cn(
         "flex items-center justify-center h-screen animate-pulse bg-main",
-        className
+        className,
       )}
     >
       <AppLogo />

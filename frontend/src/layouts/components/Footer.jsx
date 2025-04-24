@@ -162,8 +162,8 @@ export default function Footer() {
             theme === "light" ? "text-gray-500" : "text-gray-400"
           }`}
         >
-          © {new Date().getFullYear()} SmartHealth Monitoring System. All rights
-          reserved.
+          © {new Date().getFullYear()} SmartHealth Monitoring System. All
+          rights reserved.
         </motion.div>
       </div>
     </motion.footer>
