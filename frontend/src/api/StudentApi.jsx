@@ -15,7 +15,7 @@ export const useGetUser = () => {
     isError,
     error,
   } = useQuery({
-    queryKey: ["getUser"],
+    queryKey: ["getStudentUser"],
     queryFn: getUserRequest,
   });
 
@@ -28,11 +28,17 @@ export const useGetAIResponse = () => {
     return data.ai_suggestion;
   };
 
-  const { data, isLoading, isError, error } = useQuery({
+  const {
+    data: aiSuggestion,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useQuery({
     queryKey: ["getAIResponse"],
     queryFn: getAIResponseRequest,
   });
-  return { data, isLoading, isError, error };
+  return { aiSuggestion, isLoading, isError, error, refetch };
 };
 
 export const useLoginStudent = () => {
@@ -59,4 +65,24 @@ export const useLoginStudent = () => {
   }
 
   return { loginStudent, isLoading, isError, error };
+};
+
+export const useGetAllWeeklyHealthRecords = () => {
+  const getAllWeeklyHealthRecordsRequest = async () => {
+    const { data } = await axiosInstance.get(
+      "/student/weekly-health-records/all"
+    );
+    return data;
+  };
+
+  const {
+    data: weeklyHealthRecords,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["getAllWeeklyHealthRecords"],
+    queryFn: getAllWeeklyHealthRecordsRequest,
+  });
+  return { weeklyHealthRecords, isLoading, isError, error };
 };

@@ -1,5 +1,5 @@
 import express from "express";
-import { getSchools } from "../controllers/admin.controller.js";
+import { getSchools, getUser } from "../controllers/admin.controller.js";
 import { getTeachers } from "../controllers/admin.controller.js";
 import { getStudents } from "../controllers/admin.controller.js";
 import { getAllSchoolsgroupbyDistrict } from "../controllers/admin.controller.js";
@@ -9,9 +9,10 @@ import {
   createSchoolProfile,
   createTeacherProfile,
 } from "../controllers/admin.controller.js";
+import {verifyAdminToken} from "../middlewares/admin.middleware.js";
 const router = express.Router();
 
-// router.get("/", root);
+router.get("/me", verifyAdminToken, getUser);
 
 router.get("/schools", getSchools);
 

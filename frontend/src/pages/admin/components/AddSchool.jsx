@@ -42,7 +42,10 @@ export function AddSchool({ onSuccess }) {
   async function onSubmit(values) {
     try {
       console.log("Submitting values:", values); // debug
-      const response = await axiosInstance.post("/admin/create-school-profile", values);
+      const response = await axiosInstance.post(
+        "/admin/create-school-profile",
+        values,
+      );
       console.log("Server response:", response);
       toast.success("School details saved successfully");
       onSuccess?.();
@@ -51,7 +54,6 @@ export function AddSchool({ onSuccess }) {
       toast.error(error.response?.data?.error || "Something went wrong");
     }
   }
-  
 
   return (
     <div className="max-w-md mx-auto p-6">
