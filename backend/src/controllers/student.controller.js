@@ -1,15 +1,8 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import Student from "../models/student.model.js";
 import { ai } from "../config/ai.js";
 import { getPhysicalHealthReportsPrompt } from "../constants/prompts.js";
 import WeeklyHealthRecord from "../models/weekly-health-records.model.js";
-
-export function root(req, res) {
-  return res.json({
-    message: "student route",
-  });
-}
 
 export const signInStudent = async (req, res, next) => {
   try {
@@ -56,15 +49,14 @@ export const signInStudent = async (req, res, next) => {
 export const getAIChatResponse = async (req, res, next) => {
   try {
     const studentId = req.studentId;
+    const student = await Student.findById(studentId);
     const lastTwoWeekRecords = await WeeklyHealthRecord.find({
-      student_id: studentId,
+      email: student.email,
     })
       .sort({ createdAt: -1 })
       .limit(2)
       .lean();
-    console.log(lastTwoWeekRecords);
     const prompt = getPhysicalHealthReportsPrompt(lastTwoWeekRecords);
-
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: prompt,
@@ -73,9 +65,7 @@ export const getAIChatResponse = async (req, res, next) => {
     return res.json({ ai_suggestion: aiText });
   } catch (err) {
     console.error("AI Chat Response Error:", err);
-    return res.status(500).json({
-      error: "Something went wrong while generating the AI response.",
-    });
+    next(error);
   }
 };
 
