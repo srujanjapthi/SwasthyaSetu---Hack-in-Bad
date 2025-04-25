@@ -112,47 +112,28 @@ export const parseCsvFile = async (req, res, next) => {
     parse(
       file.buffer,
       { columns: true, skip_empty_lines: true },
-      (err, records) => {
+      async (err, records) => {
         if (err) return next(err);
+
         const parsedRecords = records.map((row) => ({
-          ...row,
-          body_temp: parseFloat(row.body_temp),
-          shuttle_run: parseInt(row.shuttle_run),
-          plank_time: parseInt(row.plank_time),
-          squats: parseInt(row.squats),
-          weight: parseFloat(row.weight),
-          height: parseFloat(row.height),
-          bmi: parseFloat(row.bmi),
+          email: row.email,
+          body_temp: parseFloat(row.body_temp) || 0,
+          weight: parseFloat(row.weight) || 0,
+          height: parseFloat(row.height) || 0,
+          bmi: parseFloat(row.bmi) || 0,
+          blood_pressure: parseFloat(row.blood_pressure) || 0,
+          pulse: parseFloat(row.pulse) || 0,
+          waist_circumference: parseFloat(row.waist_circumference) || 0,
+          week: parseInt(row.week) || 0,
         }));
 
-        // Save parsed records to the database
-        parsedRecords.forEach(async (record) => {
-          const {
-            email,
-            body_temp,
-            shuttle_run,
-            plank_time,
-            squats,
-            weight,
-            height,
-            bmi,
-          } = record;
-          await WeeklyHealthRecord.create({
-            email,
-            body_temp,
-            shuttle_run,
-            plank_time,
-            squats,
-            weight,
-            height,
-            bmi,
-          });
-        });
+        // Save all records at once
+        await WeeklyHealthRecord.insertMany(parsedRecords);
 
         return res.status(200).json({
           message: "Student health records uploaded successfully",
         });
-      },
+      }
     );
   } catch (error) {
     next(error);
