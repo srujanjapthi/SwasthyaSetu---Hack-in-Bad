@@ -3,8 +3,9 @@ import StudentHealthStats from "../components/StudentHealthStats";
 import StudentHealthCharts from "../components/StudentHealthCharts";
 import BadgesAndActivities from "../components/BadgesAndActivities";
 import WeeklyHealthReports from "../components/WeeklyHealthReports";
+import MedicalRecordsSection from "../components/MedicalRecordsSection";
 import StudentProfile from "../components/StudentProfile";
-// import MedicalRecordsSection from "../components/MedicalRecordsSection";
+import MedicalRecordsSection from "../components/MedicalRecordsSection";
 
 export default function StudentDashboard() {
   return (
@@ -32,7 +33,7 @@ export default function StudentDashboard() {
             <WeeklyHealthReports />
           </TabsContent>
           <TabsContent value="records" className="space-y-4">
-            {/* <MedicalRecordsSection /> */}
+            <MedicalRecordsSection />
           </TabsContent>
           <TabsContent value="chat" className="space-y-4">
             {/* <MentalHealthChat /> */}
