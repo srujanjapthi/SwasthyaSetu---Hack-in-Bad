@@ -14,75 +14,6 @@ const WeeklyHealthReports = () => {
     refetch,
   } = useGetAllWeeklyHealthRecords();
 
-  // Dummy data - will be replaced with API call
-  const dummyReports = [
-    {
-      _id: "1",
-      student_id: "student123",
-      body_temp: 98.6,
-      blood_pressure: 120,
-      pulse: 70,
-      waist_circumference: 30,
-      weight: 132,
-      height: 65,
-      bmi: 22,
-      createdAt: "2023-06-01T10:00:00Z",
-    },
-    {
-      _id: "2",
-      student_id: "student123",
-      body_temp: 98.4,
-      blood_pressure: 122,
-      pulse: 72,
-      waist_circumference: 32,
-      weight: 131,
-      height: 65,
-      bmi: 21.8,
-      createdAt: "2023-06-08T10:00:00Z",
-    },
-    {
-      _id: "3",
-      student_id: "student123",
-      body_temp: 98.7,
-      blood_pressure: 124,
-      pulse: 74,
-      waist_circumference: 34,
-      weight: 130,
-      height: 65.2,
-      bmi: 21.1,
-      createdAt: "2023-06-15T10:00:00Z",
-    },
-  ];
-
-  // Mock API fetch function
-  const fetchHealthReports = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 800));
-
-      // In real implementation, this would be:
-      // const response = await fetch('/api/weekly-health-records')
-      // const data = await response.json()
-      // setReports(data)
-
-      setReports(dummyReports);
-    } catch (err) {
-      console.error("Failed to fetch health reports:", err);
-      setError("Failed to load health reports. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch data on component mount
-  useEffect(() => {
-    fetchHealthReports();
-  }, []);
-
-  // Calculate BMI category
   const getBMICategory = (bmi) => {
     if (bmi < 18.5)
       return {
@@ -106,13 +37,6 @@ const WeeklyHealthReports = () => {
       label: "Obese",
       class: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
     };
-  };
-
-  // Format time in minutes:seconds
-  const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}m ${secs}s`;
   };
 
   // Convert Celsius to Fahrenheit for display
