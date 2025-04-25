@@ -1,12 +1,16 @@
 import express from "express";
-import { root,signInTeacher ,createStudentProfile} from "../controllers/teacher.controller.js";
+import upload from "../config/multer.js";
+import verifyTeacherToken from "../middlewares/teacher.middleware.js";
+import {signInTeacher ,createStudentProfile,parseCsvFile} from "../controllers/teacher.controller.js";
 
 const router = express.Router();
 
-router.get("/", root);
+
 
 router.post("/signin", signInTeacher);
 
-router.post("/create-student-profile",createStudentProfile)
+router.post("/create-student-profile",verifyTeacherToken,createStudentProfile)
+
+router.post("/upload-csv-file", upload.single('csvFile'),parseCsvFile)
 
 export default router;
