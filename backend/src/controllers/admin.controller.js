@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import Admin from "../models/admin.model.js";
 import School from "../models/school.model.js";
 import Teacher from "../models/teacher.model.js";
+import Student from "../models/student.model.js";
 import mongoose from "mongoose";
 export function root(req, res) {
   return res.json({
@@ -160,3 +161,61 @@ export const createTeacherProfile = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getSchools = async (req, res, next) => {
+  try {
+    const totalSchools = await School.countDocuments();
+    res.status(200).json({
+      totalSchools,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getTeachers = async (req, res, next) => {
+  try {
+    const totalTeachers = await Teacher.countDocuments();
+    res.status(200).json({
+      totalTeachers,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getStudents = async (req, res, next) => {
+  try {
+    const totalStudents = await Student.countDocuments();
+    res.status(200).json({
+      totalStudents,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllSchoolsgroupbyDistrict = async (req, res, next) => {
+  try {
+    const schools = await School.aggregate([
+      {
+        $group: {
+          _id: "$district",
+          schools: { $push: "$$ROOT" },
+        },
+      },
+    ]); 
+    res.status(200).json({
+      schools,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+
+
+
+
+
+

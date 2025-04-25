@@ -2,16 +2,54 @@ import { Card } from "@/components/ui/card";
 import { BarChart3, School, Users } from "lucide-react";
 import { motion, useAnimation } from "framer-motion";
 import { useEffect, useState } from "react";
+import axiosInstance from "@/lib/axios";
 
 export default function AdminStats() {
   const [hoveredCard, setHoveredCard] = useState(null);
   const controls = useAnimation();
 
+  const [totalSchools, setTotalSchools] = useState(0);
+  const [totalTeachers, setTotalTeachers] = useState(0);
+  const [totalStudents, setTotalStudents] = useState(0);
+
+  const getTotalSchools = async () => {
+    const response = await axiosInstance.get("/admin/schools");
+    return response.data.totalSchools;
+  };
+
+  useEffect(() => {
+    getTotalSchools().then((res) => {
+      setTotalSchools(res);
+    });
+  }, []);
+
+  const getTotalTeachers = async () => {
+    const response = await axiosInstance.get("/admin/teachers");
+    return response.data.totalTeachers;
+  };
+
+  useEffect(() => {
+    getTotalTeachers().then((res) => {
+      setTotalTeachers(res);
+    });
+  }, []);
+
+  const getTotalStudents = async () => {
+    const response = await axiosInstance.get("/admin/students");
+    return response.data.totalStudents;
+  };
+
+  useEffect(() => {
+    getTotalStudents().then((res) => {
+      setTotalStudents(res);
+    });
+  }, []);
+
   const statCards = [
     {
       id: 1,
       title: "Total Schools",
-      value: "64",
+      value: totalSchools,
       change: "↑ 8%",
       changeType: "positive",
       icon: School,
@@ -25,7 +63,7 @@ export default function AdminStats() {
     {
       id: 2,
       title: "Total Teachers",
-      value: "1,248",
+      value: totalTeachers,
       change: "↑ 3%",
       changeType: "positive",
       icon: Users,
@@ -39,7 +77,7 @@ export default function AdminStats() {
     {
       id: 3,
       title: "Total Students",
-      value: "24,389",
+      value: totalStudents,
       change: "↑ 5%",
       changeType: "positive",
       icon: Users,
@@ -74,6 +112,8 @@ export default function AdminStats() {
       });
     }
   }, [hoveredCard, controls]);
+
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

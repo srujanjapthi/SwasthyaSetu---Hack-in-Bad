@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
 import { ChartContainer } from "@/components/ui/chart";
+import axiosInstance from "@/lib/axios";
 
 export default function AdminCharts() {
   const [loading, setLoading] = useState(true);
@@ -40,17 +41,31 @@ export default function AdminCharts() {
 
   const pieColors = ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#f43f5e"];
 
+  const schoolsByDistrict = async () => {
+    try {
+      const response = await axiosInstance.get("/admin/districts");
+      // console.log(response.data);
+
+      // Assuming the response.data is an array with the district objects
+      const data = response.data.schools.map((item) => ({
+        name: item._id, // District name
+        value: item.schools.length, // Number of schools
+      }));
+
+      // console.log(data);
+      return data;
+    } catch (error) {
+      console.error("Error fetching schools by district:", error);
+      // Optionally, return a default value or empty array if there's an error
+      return [];
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 800));
       const mockData = {
-        schoolsByDistrict: [
-          { name: "North", value: 12 },
-          { name: "East", value: 19 },
-          { name: "South", value: 8 },
-          { name: "West", value: 15 },
-          { name: "Central", value: 10 },
-        ],
         healthTrends: [
           { month: "Jan", bmi: 20.1, healthy: 78 },
           { month: "Feb", bmi: 20.3, healthy: 79 },
@@ -75,6 +90,12 @@ export default function AdminCharts() {
         ],
       };
       setChartData(mockData);
+
+      const schoolData = await schoolsByDistrict();
+      setChartData({
+        ...mockData,
+        schoolsByDistrict: schoolData,
+      });
       setLoading(false);
     };
     fetchData();
