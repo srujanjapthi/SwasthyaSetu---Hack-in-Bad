@@ -16,8 +16,6 @@ export const signInTeacher = async (req, res, next) => {
     }
 
     const teacher = await Teacher.findOne({ email });
-    console.log(teacher);
-
     if (!teacher) {
       return res.status(404).json({
         message: "Teacher doesn't exist. Please Sign-up",
@@ -107,20 +105,15 @@ export const createStudentProfile = async (req, res, next) => {
 export const parseCsvFile = async (req, res, next) => {
   try {
     const { file } = req;
-
     if (!file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
     parse(
       file.buffer,
-      {
-        columns: true,
-        skip_empty_lines: true,
-      },
+      { columns: true, skip_empty_lines: true },
       (err, records) => {
         if (err) return next(err);
-
         const parsedRecords = records.map((row) => ({
           ...row,
           body_temp: parseFloat(row.body_temp),
@@ -167,14 +160,11 @@ export const parseCsvFile = async (req, res, next) => {
 };
 
 export const getAllStudents = async (req, res, next) => {
-  const teacherId = req.teacherId;
-  console.log(teacherId);
-
   try {
-    const students = await Student.find({ mentor: teacherId })
-      .populate("mentor")
-      .populate("school")
-      .select("-password -__v");
+    const students = await Student.find({ mentor: req.teacherId }).populate({
+      path: "school mentor",
+      select: "-password -__v",
+    });
 
     if (!students) {
       return res.status(404).json({
@@ -207,12 +197,8 @@ export const getUser = async (req, res, next) => {
 };
 
 export const getStudentWeeklyHealthRecords = async (req, res, next) => {
-  const { email } = req.body;
   try {
-    const records = await WeeklyHealthRecord.find({ email });
-
-    console.log(records);
-
+    const records = await WeeklyHealthRecord.find({ email: req.body.email });
     if (!records) {
       return res.status(404).json({
         message: "No records found",

@@ -5,6 +5,15 @@ import Teacher from "../models/teacher.model.js";
 import Student from "../models/student.model.js";
 import mongoose from "mongoose";
 
+export const getUser = async (req, res, next) => {
+  try {
+    const admin = await Admin.findById(req.adminId).select("-password");
+    return res.json(admin);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const signUpAdmin = async (req, res, next) => {
   try {
     let admin = await Admin.findOne({ email: req.body.email });

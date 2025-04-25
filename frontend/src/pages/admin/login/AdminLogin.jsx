@@ -1,13 +1,9 @@
-// import { useAdminLoginRequest } from "@/api/AdminsApi";
+import { useLoginAdmin } from "@/api/AdminApi";
 import LoginForm from "@/forms/login/LoginForm";
 import { User2 } from "lucide-react";
 
 export default function AdminLogin() {
-  // const { loginAdmin, isLoading: isLoginRequestLoading } = useAdminLoginRequest();
-  const { loginAdmin, isLoading: isLoginRequestLoading } = {
-    loginAdmin: () => {},
-    isLoading: false,
-  };
+  const { loginAdmin, isLoading: isLoginRequestLoading } = useLoginAdmin();
 
   return (
     <LoginForm

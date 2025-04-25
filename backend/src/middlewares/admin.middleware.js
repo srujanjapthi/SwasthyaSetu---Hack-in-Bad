@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-const verifyAdminToken = (req, res, next) => {
+export const verifyAdminToken = (req, res, next) => {
   const token = req.cookies["admin_auth_token"];
 
   if (!token) {
@@ -19,8 +19,4 @@ const verifyAdminToken = (req, res, next) => {
       message: "Unauthorized",
     });
   }
-};
-
-export default {
-  verifyAdminToken,
 };
