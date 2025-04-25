@@ -192,3 +192,25 @@ export const getAllStudents = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getStudentWeeklyHealthRecords = async (req, res, next) => {
+  const {email } = req.body;
+  try {
+    const records = await WeeklyHealthRecord.find({email })
+
+    console.log(records);
+
+    if (!records) {
+      return res.status(404).json({
+        message: "No records found",
+      });
+    }
+
+    return res.status(200).json({
+      records,
+      message: "Records fetched successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+}

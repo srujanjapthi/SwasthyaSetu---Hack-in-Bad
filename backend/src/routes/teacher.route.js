@@ -6,6 +6,7 @@ import {
   createStudentProfile,
   getAllStudents,
   parseCsvFile,
+  getStudentWeeklyHealthRecords
 } from "../controllers/teacher.controller.js";
 const router = express.Router();
 
@@ -24,6 +25,12 @@ router.post(
   upload.single("csvFile"),
   verifyTeacherToken,
   parseCsvFile,
+);
+
+router.post(
+  "/weekly-report",
+  verifyTeacherToken,
+  getStudentWeeklyHealthRecords,
 );
 
 export default router;
