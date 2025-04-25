@@ -15,5 +15,4 @@ router.post("/create-student-profile",verifyTeacherToken,createStudentProfile)
 router.post("/upload-csv-file", upload.single('csvFile'),verifyTeacherToken,parseCsvFile)
 
 
-
 export default router;
