@@ -2,10 +2,23 @@ import { Activity, Heart, Award, TrendingUp } from "lucide-react";
 import { motion, useAnimation } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState } from "react";
+import axiosInstance from "@/lib/axios";
 
 export default function StudentHealthStats() {
   const [isHovered, setIsHovered] = useState(null);
   const controls = useAnimation();
+
+  const [healthStatus, setHealthStatus] = useState("");
+
+  const getHealthStatus = async () => {
+    const response = await axiosInstance.get("/student/health-status");
+    setHealthStatus(response.data.health_status);
+    console.log(response.data.health_status);
+  };
+
+  useEffect(() => {
+    getHealthStatus();
+  }, []);
 
   const stats = [
     {
@@ -25,16 +38,30 @@ export default function StudentHealthStats() {
     {
       id: 2,
       title: "Health Status",
-      value: "Excellent",
+      value: healthStatus,
       change: "All metrics optimal",
       changeType: "positive",
       icon: Heart,
       bgColor:
-        "bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30",
-      borderColor: "border-green-400",
-      iconBg: "bg-green-100 dark:bg-green-900/30",
-      iconColor: "text-green-600 dark:text-green-400",
-      pulseColor: "bg-green-200/50 dark:bg-green-700/30",
+        healthStatus === "Healthy\n"
+          ? "bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30"
+          : "bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30",
+      borderColor:
+        healthStatus === "Healthy\n"
+          ? "border-green-400"
+          : "border-red-400",
+      iconBg:
+        healthStatus === "Healthy\n"
+          ? "bg-green-100 dark:bg-green-900/30"
+          : "bg-red-100 dark:bg-red-900/30",
+      iconColor:
+        healthStatus === "Healthy\n"
+          ? "text-green-600 dark:text-green-400"
+          : "text-red-600 dark:text-red-400",
+      pulseColor:
+        healthStatus === "Healthy\n"
+          ? "bg-green-200/50 dark:bg-green-700/30"
+          : "bg-red-200/50 dark:bg-red-700/30",
     },
     {
       id: 3,

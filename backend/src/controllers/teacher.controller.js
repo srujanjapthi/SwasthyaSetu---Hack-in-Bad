@@ -5,6 +5,8 @@ import Student from "../models/student.model.js";
 import mongoose from "mongoose";
 import { parse } from "csv-parse";
 import WeeklyHealthRecord from "../models/weekly-health-records.model.js";
+import { getStudentHealthStatusPrompt } from "../constants/prompts.js";
+import { ai } from "../config/ai.js";
 
 export const signInTeacher = async (req, res, next) => {
   try {
@@ -112,47 +114,28 @@ export const parseCsvFile = async (req, res, next) => {
     parse(
       file.buffer,
       { columns: true, skip_empty_lines: true },
-      (err, records) => {
+      async (err, records) => {
         if (err) return next(err);
+
         const parsedRecords = records.map((row) => ({
-          ...row,
-          body_temp: parseFloat(row.body_temp),
-          shuttle_run: parseInt(row.shuttle_run),
-          plank_time: parseInt(row.plank_time),
-          squats: parseInt(row.squats),
-          weight: parseFloat(row.weight),
-          height: parseFloat(row.height),
-          bmi: parseFloat(row.bmi),
+          email: row.email,
+          body_temp: parseFloat(row.body_temp) || 0,
+          weight: parseFloat(row.weight) || 0,
+          height: parseFloat(row.height) || 0,
+          bmi: parseFloat(row.bmi) || 0,
+          blood_pressure: parseFloat(row.blood_pressure) || 0,
+          pulse: parseFloat(row.pulse) || 0,
+          waist_circumference: parseFloat(row.waist_circumference) || 0,
+          week: parseInt(row.week) || 0,
         }));
 
-        // Save parsed records to the database
-        parsedRecords.forEach(async (record) => {
-          const {
-            email,
-            body_temp,
-            shuttle_run,
-            plank_time,
-            squats,
-            weight,
-            height,
-            bmi,
-          } = record;
-          await WeeklyHealthRecord.create({
-            email,
-            body_temp,
-            shuttle_run,
-            plank_time,
-            squats,
-            weight,
-            height,
-            bmi,
-          });
-        });
+        // Save all records at once
+        await WeeklyHealthRecord.insertMany(parsedRecords);
 
         return res.status(200).json({
           message: "Student health records uploaded successfully",
         });
-      },
+      }
     );
   } catch (error) {
     next(error);
@@ -209,6 +192,44 @@ export const getStudentWeeklyHealthRecords = async (req, res, next) => {
       records,
       message: "Records fetched successfully",
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// export const getAllHealthStatus = async (req, res, next) => {
+//   try {
+//     const students = await Student.find({ mentor: req.studentId });
+//     const studentsHealthRecords = await WeeklyHealthRecord.find({
+//       email: { $in: students.map((student) => student.email) },
+//     });
+//     const prompt = getStudentHealthStatusPrompt(studentsHealthRecords);
+//     const response = await ai.models.generateContent({
+//       model: "gemini-2.0-flash",
+//       contents: prompt,
+//     });
+//     const aiText = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+//     return res.json({ health_status: aiText });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+export const getAllHealthStatus = async (req, res, next) => {
+  try {
+    const students = await Student.find({ mentor: req.teacherId });
+    const studentEmails = students.map((student) => student.email);
+    const studentsHealthRecords = await WeeklyHealthRecord.aggregate([
+      { $match: { email: { $in: studentEmails } } },
+      { $group: { _id: "$email", records: { $push: "$$ROOT" } } },
+    ]);
+    const prompt = getStudentHealthStatusPrompt(studentsHealthRecords);
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: prompt,
+    });
+    const aiText = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+    return res.json({ health_status: aiText });
   } catch (error) {
     next(error);
   }

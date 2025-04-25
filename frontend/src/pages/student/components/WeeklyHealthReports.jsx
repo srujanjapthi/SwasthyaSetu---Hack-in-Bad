@@ -127,7 +127,7 @@ const WeeklyHealthReports = () => {
                     <StatItem
                       label="Body Temp"
                       value={`${celsiusToFahrenheit(report.body_temp)}°F`}
-                      icon="🌡️"
+                      icon="🌡"
                     />
                     <StatItem
                       label="Waist Circumference"
@@ -137,7 +137,7 @@ const WeeklyHealthReports = () => {
                     <StatItem
                       label="Blood Pressure"
                       value={`${report.blood_pressure}mmHg`}
-                      icon="⏱️"
+                      icon="⏱"
                     />
                     <StatItem label="Pulse" value={report.pulse} icon="🦵" />
                   </div>

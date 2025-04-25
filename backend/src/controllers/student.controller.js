@@ -1,8 +1,12 @@
 import jwt from "jsonwebtoken";
 import Student from "../models/student.model.js";
 import { ai } from "../config/ai.js";
-import { getPhysicalHealthReportsPrompt } from "../constants/prompts.js";
+import {
+  getPhysicalHealthReportsPrompt,
+  getStudentHealthStatusPrompt,
+} from "../constants/prompts.js";
 import WeeklyHealthRecord from "../models/weekly-health-records.model.js";
+import { getHealthStatusPrompt } from "../constants/prompts.js";
 
 export const signInStudent = async (req, res, next) => {
   try {
@@ -97,3 +101,26 @@ export const getAllWeeklyHealthRecords = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getHealthStatus = async (req, res, next) => {
+  try {
+    const student = await Student.findById(req.studentId);
+    const weeklyHealthRecords = await WeeklyHealthRecord.find({
+      email: student.email,
+    })
+      .sort({ createdAt: -1 })
+      .limit(2)
+      .lean();
+    const prompt = getHealthStatusPrompt(weeklyHealthRecords);
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: prompt,
+    });
+    const aiText = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+    return res.json({ health_status: aiText });
+  } catch (error) {
+    next(error);
+  }
+};
+
+

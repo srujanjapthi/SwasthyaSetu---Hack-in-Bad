@@ -8,6 +8,7 @@ import {
   parseCsvFile,
   getUser,
   getStudentWeeklyHealthRecords,
+  getAllHealthStatus,
 } from "../controllers/teacher.controller.js";
 const router = express.Router();
 
@@ -35,5 +36,7 @@ router.post(
 );
 
 router.get("/me", verifyTeacherToken, getUser);
+
+router.get("/health-status/all", verifyTeacherToken, getAllHealthStatus);
 
 export default router;
