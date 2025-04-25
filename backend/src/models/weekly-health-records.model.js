@@ -2,7 +2,6 @@ import { model, Schema } from "mongoose";
 
 const weeklyHealthRecordSchema = new Schema(
   {
-    
     email: { type: String, required: true },
     body_temp: { type: Number, default: 0 },
     shuttle_run: { type: Number, default: 0 },
