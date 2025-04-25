@@ -11,7 +11,7 @@ const studentSchema = new Schema(
     school: { type: Schema.Types.ObjectId, ref: "School" },
     mentor: { type: Schema.Types.ObjectId, ref: "Teacher" },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Student = model("Student", studentSchema);

@@ -10,7 +10,7 @@ const schoolSchema = new Schema(
     email: { type: String },
     phone: { type: String },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const School = model("School", schoolSchema);

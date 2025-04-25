@@ -7,7 +7,7 @@ const medicalRecordSchema = new Schema(
     description: { type: String, required: true },
     record_url: { type: String, required: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const MedicalRecord = model("MedicalRecord", medicalRecordSchema);
