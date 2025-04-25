@@ -1,14 +1,5 @@
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import {
-  User,
-  Mail,
-  Calendar,
-  School,
-  Award,
-  Activity,
-  HeartPulse,
-} from "lucide-react";
+import { User, Mail, Calendar, School, Award } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,56 +10,28 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useGetUser } from "@/api/StudentApi";
+import { useEffect, useState } from "react";
+import { format } from "date-fns";
 
 export default function StudentProfile() {
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
+  const { isLoading, user: profile } = useGetUser();
 
-  // Mock API fetch
+  // Initialize form data when profile is loaded
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        // Simulate API delay
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        const mockData = {
-          name: "Alex Johnson",
-          email: "alex.johnson@school.edu",
-          dob: "2008-05-15",
-          gender: "male",
-          class: "10",
-          section: "B",
-          school: {
-            name: "Greenwood High School",
-            district: "Central",
-            state: "California",
-            address: "123 Education Blvd, San Francisco",
-          },
-          mentor: {
-            name: "Sarah Williams",
-            email: "s.williams@school.edu",
-            phone: "+1 (555) 123-4567",
-          },
-          achievements: [
-            { title: "Perfect Attendance", icon: Award, count: 3 },
-            { title: "Health Champion", icon: HeartPulse, count: 5 },
-            { title: "Sports Star", icon: Activity, count: 2 },
-          ],
-        };
-
-        setProfile(mockData);
-        setFormData(mockData);
-      } catch (error) {
-        console.error("Failed to fetch profile", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+    if (profile) {
+      setFormData({
+        name: profile.name || "",
+        email: profile.email || "",
+        dob: profile.dob ? format(new Date(profile.dob), "yyyy-MM-dd") : "",
+        gender: profile.gender || "",
+        class: profile.class || "",
+        section: profile.section || "",
+      });
+    }
+  }, [profile]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -76,16 +39,12 @@ export default function StudentProfile() {
   };
 
   const handleSave = () => {
-    setLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      setProfile(formData);
-      setEditMode(false);
-      setLoading(false);
-    }, 1000);
+    // Here you would typically make an API call to update the profile
+    // For now, we'll just exit edit mode
+    setEditMode(false);
   };
 
-  if (loading && !profile) {
+  if (isLoading && !profile) {
     return (
       <div className="space-y-6">
         {[...Array(3)].map((_, i) => (
@@ -100,6 +59,10 @@ export default function StudentProfile() {
         ))}
       </div>
     );
+  }
+
+  if (!profile) {
+    return <div>No profile data available</div>;
   }
 
   return (
@@ -167,6 +130,15 @@ export default function StudentProfile() {
                         onChange={handleInputChange}
                       />
                     </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Email</label>
+                      <Input
+                        name="email"
+                        value={formData.email || ""}
+                        onChange={handleInputChange}
+                        disabled // Email typically shouldn't be editable
+                      />
+                    </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <label className="text-sm font-medium">Class</label>
@@ -227,7 +199,11 @@ export default function StudentProfile() {
                     onChange={handleInputChange}
                   />
                 ) : (
-                  <div className="p-2 rounded bg-muted/50">{profile?.dob}</div>
+                  <div className="p-2 rounded bg-muted/50">
+                    {profile?.dob
+                      ? format(new Date(profile.dob), "MMMM d, yyyy")
+                      : "N/A"}
+                  </div>
                 )}
               </div>
               <div className="space-y-2">
@@ -250,7 +226,7 @@ export default function StudentProfile() {
                   </Select>
                 ) : (
                   <div className="p-2 rounded bg-muted/50 capitalize">
-                    {profile?.gender}
+                    {profile?.gender || "N/A"}
                   </div>
                 )}
               </div>
@@ -264,51 +240,18 @@ export default function StudentProfile() {
               >
                 <Button
                   onClick={handleSave}
-                  disabled={loading}
                   className="gap-2"
                   whileHover={{ scale: 1.05 }}
                 >
-                  {loading ? "Saving..." : "Save Changes"}
+                  Save Changes
                 </Button>
               </motion.div>
             )}
           </Card>
         </motion.div>
 
-        {/* Achievements Card */}
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Card className="p-6 border-l-4 border-green-400 hover:shadow-lg transition-shadow h-full">
-            <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
-              <Award className="text-green-500" />
-              Achievements
-            </h3>
-
-            <div className="space-y-4">
-              {profile?.achievements?.map((item, i) => (
-                <motion.div
-                  key={i}
-                  className="flex items-center gap-4 p-3 rounded-lg bg-gradient-to-r from-green-50/50 to-green-100/30 dark:from-green-900/20 dark:to-green-800/20"
-                  whileHover={{ x: 5 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <div className="p-3 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-300">
-                    <item.icon className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium">{item.title}</h4>
-                    <p className="text-sm text-muted-foreground">
-                      {item.count} awards
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </Card>
-        </motion.div>
+        {/* Achievements Card - Removed since not in backend data */}
+        {/* You can add this back if you implement achievements later */}
 
         {/* School Info Card */}
         <motion.div
@@ -350,6 +293,20 @@ export default function StudentProfile() {
                   {profile?.school?.address || "N/A"}
                 </p>
               </div>
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-muted-foreground">
+                  Principal
+                </label>
+                <p className="font-medium">
+                  {profile?.school?.head_name || "N/A"}
+                </p>
+              </div>
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-muted-foreground">
+                  Contact
+                </label>
+                <p className="font-medium">{profile?.school?.phone || "N/A"}</p>
+              </div>
             </div>
           </Card>
         </motion.div>
@@ -384,6 +341,14 @@ export default function StudentProfile() {
                     </label>
                     <p className="font-medium">
                       {profile.mentor.phone || "Not provided"}
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-sm font-medium text-muted-foreground">
+                      Gender
+                    </label>
+                    <p className="font-medium capitalize">
+                      {profile.mentor.gender || "Not specified"}
                     </p>
                   </div>
                 </div>

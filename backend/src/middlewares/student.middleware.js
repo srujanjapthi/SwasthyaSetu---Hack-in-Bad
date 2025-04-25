@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 
-const verifyStudentToken = (req, res, next) => {
+export const verifyStudentToken = (req, res, next) => {
   const token = req.cookies["student_auth_token"];
-
   if (!token) {
     return res.status(401).json({
       message: "Unauthorized",
@@ -11,7 +10,6 @@ const verifyStudentToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
     req.studentId = decoded.studentId;
     next();
   } catch (error) {
@@ -19,8 +17,4 @@ const verifyStudentToken = (req, res, next) => {
       message: "Unauthorized",
     });
   }
-};
-
-export default {
-  verifyStudentToken,
 };
