@@ -184,7 +184,7 @@ const TeacherDashboard = () => {
           </div>
           <div className="flex gap-3">
             <AiAssistant isAIDialogOpen={isAIDialogOpen} setIsAIDialogOpen={setIsAIDialogOpen} aiQuery={aiQuery} setAiQuery={setAiQuery} aiResponse={aiResponse} handleAIQuery={handleAIQuery}/>
-            <UploadData isUploadDialogOpen={isUploadDialogOpen} setIsUploadDialogOpen={setIsUploadDialogOpen} handleFileUpload={handleFileUpload} handleUpload={handleUpload} file={file}/>
+            <UploadData isUploadDialogOpen={isUploadDialogOpen} setIsUploadDialogOpen={setIsUploadDialogOpen} setFile={setFile} handleFileUpload={handleFileUpload} handleUpload={handleUpload} file={file}/>
             <AddStudent isAddDialogOpen={isAddDialogOpen} setIsAddDialogOpen={setIsAddDialogOpen} newStudent={newStudent} setNewStudent={setNewStudent} handleAddStudent={handleAddStudent}/>
           </div>
         </div>

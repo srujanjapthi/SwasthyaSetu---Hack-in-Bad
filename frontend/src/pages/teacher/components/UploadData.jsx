@@ -2,9 +2,10 @@ import { motion } from "framer-motion";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Upload, FileBarChart } from "lucide-react";
+import axiosInstance from "@/lib/axios";
+import {toast} from "sonner";
 
-
-const UploadData = ({ isUploadDialogOpen, setIsUploadDialogOpen, handleFileUpload, handleUpload,file }) => {
+const UploadData = ({setFile, isUploadDialogOpen, setIsUploadDialogOpen, handleFileUpload, handleUpload,file }) => {
   return (
     <div>
     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>    
@@ -41,15 +42,23 @@ const UploadData = ({ isUploadDialogOpen, setIsUploadDialogOpen, handleFileUploa
                             or drag and drop
                           </p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">
-                            Excel files only (XLS, XLSX)
+                           CSV files only (CSV)
                           </p>
                         </div>
                         <input
                           id="file-upload"
                           type="file"
                           className="hidden"
-                          accept=".xlsx,.xls"
-                          onChange={handleFileUpload}
+                          accept=".csv"
+                          onChange={()=>{
+                            if(event.target.files.length > 0){
+                              console.log(event.target.files[0]);
+                              setFile(event.target.files[0]);
+                             
+                        
+                            }
+                           
+                          }}
                         />
                       </label>
                     </div>
@@ -67,7 +76,32 @@ const UploadData = ({ isUploadDialogOpen, setIsUploadDialogOpen, handleFileUploa
                   <DialogFooter>
                     <Button
                       type="submit"
-                      onClick={handleUpload}
+                      onClick={()=>{
+                        const handleUpload = async () => {
+                       
+                         if (!file) return;
+                       
+                         const formData = new FormData();
+                         formData.append("csvFile", file); // "file" is the field name expected by your API
+                       
+                         try {
+                           const response = await axiosInstance.post("/teacher/upload-csv-file", formData, {
+                             headers: {
+                               "Content-Type": "multipart/form-data",
+                             },
+                           });
+                       
+                           console.log("Upload successful:", response.data);
+                           // optionally close the dialog or reset state here
+                         } catch (error) {
+                           console.error("Upload failed:", error);
+                         }
+                       };
+                       handleUpload();
+                       setFile(null);
+                       setIsUploadDialogOpen(false);
+                       toast.success("Health data uploaded successfully!");
+                      }}
                       disabled={!file}
                       className="disabled:opacity-50"
                     >
