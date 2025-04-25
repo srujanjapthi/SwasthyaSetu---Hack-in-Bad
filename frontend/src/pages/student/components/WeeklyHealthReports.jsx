@@ -16,9 +16,9 @@ const WeeklyHealthReports = () => {
       _id: "1",
       student_id: "student123",
       body_temp: 98.6,
-      shuttle_run: 12.5,
-      plank_time: 120,
-      squats: 25,
+      blood_pressure: 120,
+      pulse: 70,
+      waist_circumference: 30,
       weight: 132,
       height: 65,
       bmi: 22,
@@ -28,9 +28,9 @@ const WeeklyHealthReports = () => {
       _id: "2",
       student_id: "student123",
       body_temp: 98.4,
-      shuttle_run: 11.8,
-      plank_time: 135,
-      squats: 28,
+      blood_pressure: 122,
+      pulse: 72,
+      waist_circumference: 32,
       weight: 131,
       height: 65,
       bmi: 21.8,
@@ -40,12 +40,12 @@ const WeeklyHealthReports = () => {
       _id: "3",
       student_id: "student123",
       body_temp: 98.7,
-      shuttle_run: 11.2,
-      plank_time: 145,
-      squats: 30,
+      blood_pressure: 124,
+      pulse: 74,
+      waist_circumference: 34,
       weight: 130,
       height: 65.2,
-      bmi: 41.5,
+      bmi: 21.1,
       createdAt: "2023-06-15T10:00:00Z",
     },
   ];
@@ -163,16 +163,16 @@ const WeeklyHealthReports = () => {
                       icon="🌡️"
                     />
                     <StatItem
-                      label="Shuttle Run"
-                      value={`${report.shuttle_run}s`}
+                      label="Waist Circumference"
+                      value={`${report.waist_circumference}cm`}
                       icon="🏃"
                     />
                     <StatItem
-                      label="Plank Time"
-                      value={formatTime(report.plank_time)}
+                      label="Blood Pressure"
+                      value={`${report.blood_pressure}mmHg`}
                       icon="⏱️"
                     />
-                    <StatItem label="Squats" value={report.squats} icon="🦵" />
+                    <StatItem label="Pulse" value={report.pulse} icon="🦵" />
                   </div>
 
                   <div className="pt-3 border-t">

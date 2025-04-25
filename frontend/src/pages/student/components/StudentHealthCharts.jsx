@@ -17,68 +17,68 @@ import { motion } from "framer-motion";
 
 const sampleData = [
   {
-    date: "Apr 17",
+    date: "Week 1",
     body_temp: 98.4,
-    shuttle_run: 10,
-    plank_time: 30,
-    squats: 15,
+    blood_pressure: 120,
+    pulse: 70,
+    waist_circumference: 30,
     bmi: 21,
   },
   {
-    date: "Apr 18",
+    date: "Week 2",
     body_temp: 98.6,
-    shuttle_run: 12,
-    plank_time: 35,
-    squats: 18,
+    blood_pressure: 122,
+    pulse: 72,
+    waist_circumference: 32,
     bmi: 21.2,
   },
   {
-    date: "Apr 19",
+    date: "Week 3",
     body_temp: 99.1,
-    shuttle_run: 11,
-    plank_time: 28,
-    squats: 17,
+    blood_pressure: 124,
+    pulse: 74,
+    waist_circumference: 34,
     bmi: 21.1,
   },
   {
-    date: "Apr 20",
+    date: "Week 4",
     body_temp: 98.9,
-    shuttle_run: 13,
-    plank_time: 36,
-    squats: 19,
+    blood_pressure: 126,
+    pulse: 76,
+    waist_circumference: 36,
     bmi: 21.3,
   },
   {
-    date: "Apr 21",
+    date: "Week 5",
     body_temp: 98.7,
-    shuttle_run: 12,
-    plank_time: 33,
-    squats: 18,
-    bmi: 21.2,
+    blood_pressure: 128,
+    pulse: 78,
+    waist_circumference: 38,
+    bmi: 21.4,
   },
   {
-    date: "Apr 22",
+    date: "Week 6",
     body_temp: 98.5,
-    shuttle_run: 11,
-    plank_time: 30,
-    squats: 16,
-    bmi: 21.0,
+    blood_pressure: 130,
+    pulse: 80,
+    waist_circumference: 40,
+    bmi: 21.5,
   },
   {
-    date: "Apr 23",
+    date: "Week 7",
     body_temp: 98.3,
-    shuttle_run: 10,
-    plank_time: 29,
-    squats: 15,
-    bmi: 20.9,
+    blood_pressure: 132,
+    pulse: 82,
+    waist_circumference: 42,
+    bmi: 21.6,
   },
 ];
 
 const chartConfig = {
   body_temp: { label: "Body Temperature", color: "#f97316" },
-  shuttle_run: { label: "Shuttle Run", color: "#6366f1" },
-  plank_time: { label: "Plank Time", color: "#06b6d4" },
-  squats: { label: "Squats", color: "#ec4899" },
+  blood_pressure: { label: "Blood Pressure", color: "#06b6d4" },
+  pulse: { label: "Pulse", color: "#ec4899" },
+  waist_circumference: { label: "Waist Circumference", color: "#22c55e" },
   bmi: { label: "BMI", color: "#22c55e" },
 };
 
@@ -128,7 +128,7 @@ export default function StudentHealthCharts() {
       <motion.div whileHover={{ scale: 1.01 }}>
         <Card className="rounded-2xl shadow-md">
           <CardHeader>
-            <CardTitle>Shuttle Run</CardTitle>
+            <CardTitle>Blood Pressure</CardTitle>
           </CardHeader>
           <CardContent className="h-[250px]">
             <ChartContainer config={chartConfig} className="h-full w-full">
@@ -144,8 +144,8 @@ export default function StudentHealthCharts() {
                     height={36}
                   />
                   <Bar
-                    dataKey="shuttle_run"
-                    fill={`var(--color-shuttle_run)`}
+                    dataKey="blood_pressure"
+                    fill={`var(--color-blood_pressure)`}
                     radius={[4, 4, 0, 0]}
                   />
                 </BarChart>
@@ -159,7 +159,7 @@ export default function StudentHealthCharts() {
       <motion.div whileHover={{ scale: 1.01 }}>
         <Card className="rounded-2xl shadow-md">
           <CardHeader>
-            <CardTitle>Plank Time (seconds)</CardTitle>
+            <CardTitle>Pulse</CardTitle>
           </CardHeader>
           <CardContent className="h-[250px]">
             <ChartContainer config={chartConfig} className="h-full w-full">
@@ -176,8 +176,8 @@ export default function StudentHealthCharts() {
                   />
                   <Line
                     type="monotone"
-                    dataKey="plank_time"
-                    stroke={`var(--color-plank_time)`}
+                    dataKey="pulse"
+                    stroke={`var(--color-pulse)`}
                     strokeWidth={2}
                     dot={{ r: 4 }}
                     activeDot={{ r: 6, strokeWidth: 0 }}
@@ -193,7 +193,7 @@ export default function StudentHealthCharts() {
       <motion.div whileHover={{ scale: 1.01 }}>
         <Card className="rounded-2xl shadow-md">
           <CardHeader>
-            <CardTitle>Squats Count</CardTitle>
+            <CardTitle>Waist Circumference</CardTitle>
           </CardHeader>
           <CardContent className="h-[250px]">
             <ChartContainer config={chartConfig} className="h-full w-full">
@@ -209,8 +209,8 @@ export default function StudentHealthCharts() {
                     height={36}
                   />
                   <Bar
-                    dataKey="squats"
-                    fill={`var(--color-squats)`}
+                    dataKey="waist_circumference"
+                    fill={`var(--color-waist_circumference)`}
                     radius={[4, 4, 0, 0]}
                   />
                 </BarChart>

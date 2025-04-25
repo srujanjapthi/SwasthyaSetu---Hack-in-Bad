@@ -65,7 +65,7 @@ export const getAIChatResponse = async (req, res, next) => {
     return res.json({ ai_suggestion: aiText });
   } catch (err) {
     console.error("AI Chat Response Error:", err);
-    next(error);
+    next(err);
   }
 };
 

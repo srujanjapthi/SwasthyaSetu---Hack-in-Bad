@@ -4,12 +4,13 @@ const weeklyHealthRecordSchema = new Schema(
   {
     email: { type: String, required: true },
     body_temp: { type: Number, default: 0 },
-    shuttle_run: { type: Number, default: 0 },
-    plank_time: { type: Number, default: 0 },
-    squats: { type: Number, default: 0 },
     weight: { type: Number, default: 0 },
     height: { type: Number, default: 0 },
     bmi: { type: Number, default: 0 },
+    blood_pressure: { type: Number, default: 0 },
+    pulse: { type: Number, default: 0 },
+    waist_circumference: { type: Number, default: 0 },
+    week: { type: Number, default: 0 },
   },
   { timestamps: true },
 );

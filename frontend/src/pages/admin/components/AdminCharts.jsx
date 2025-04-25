@@ -35,8 +35,7 @@ export default function AdminCharts() {
     girls: { label: "Girls", color: "#f472b6" },
     bmi: { label: "BMI", color: "#60a5fa" },
     healthy: { label: "Healthy %", color: "#10b981" },
-    shuttle: { label: "Shuttle Run", color: "#f59e0b" },
-    plank: { label: "Plank Hold", color: "#6366f1" },
+    waist_circumference: { label: "Waist Circumference", color: "#f59e0b" },
   };
 
   const pieColors = ["#3b82f6", "#10b981", "#f59e0b", "#8b5cf6", "#f43f5e"];
@@ -82,11 +81,11 @@ export default function AdminCharts() {
           { class: "Class 10", boys: 130, girls: 125 },
         ],
         fitnessProgress: [
-          { month: "Jan", shuttle: 12.5, plank: 45 },
-          { month: "Feb", shuttle: 12.2, plank: 48 },
-          { month: "Mar", shuttle: 11.9, plank: 52 },
-          { month: "Apr", shuttle: 11.7, plank: 55 },
-          { month: "May", shuttle: 11.5, plank: 58 },
+          { month: "Jan", waist_circumference: 12.5 },
+          { month: "Feb", waist_circumference: 12.2 },
+          { month: "Mar", waist_circumference: 11.9 },
+          { month: "Apr", waist_circumference: 11.7 },
+          { month: "May", waist_circumference: 11.5 },
         ],
       };
       setChartData(mockData);
@@ -288,13 +287,8 @@ export default function AdminCharts() {
                     height={36}
                   />
                   <Bar
-                    dataKey="shuttle"
-                    fill={chartConfig.shuttle.color}
-                    radius={[4, 4, 0, 0]}
-                  />
-                  <Bar
-                    dataKey="plank"
-                    fill={chartConfig.plank.color}
+                    dataKey="waist_circumference"
+                    fill={chartConfig.waist_circumference.color}
                     radius={[4, 4, 0, 0]}
                   />
                 </BarChart>
