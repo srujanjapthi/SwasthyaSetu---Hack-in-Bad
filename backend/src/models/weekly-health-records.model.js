@@ -2,7 +2,7 @@ import { model, Schema } from "mongoose";
 
 const weeklyHealthRecordSchema = new Schema(
   {
-    student_id: { type: Schema.Types.ObjectId, ref: "Student", required: true },
+    email: { type: String, required: true },
     body_temp: { type: Number, default: 0 },
     shuttle_run: { type: Number, default: 0 },
     plank_time: { type: Number, default: 0 },

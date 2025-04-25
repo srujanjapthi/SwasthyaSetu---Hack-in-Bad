@@ -21,6 +21,4 @@ const verifyTeacherToken = (req, res, next) => {
   }
 };
 
-export default {
-  verifyTeacherToken,
-};
+export default verifyTeacherToken;
