@@ -3,6 +3,7 @@ import StudentHealthStats from "../components/StudentHealthStats";
 import StudentHealthCharts from "../components/StudentHealthCharts";
 import BadgesAndActivities from "../components/BadgesAndActivities";
 import WeeklyHealthReports from "../components/WeeklyHealthReports";
+import StudentProfile from "../components/StudentProfile";
 // import MedicalRecordsSection from "../components/MedicalRecordsSection";
 
 export default function StudentDashboard() {
@@ -37,7 +38,7 @@ export default function StudentDashboard() {
             {/* <MentalHealthChat /> */}
           </TabsContent>
           <TabsContent value="profile" className="space-y-4">
-            {/* <StudentProfile /> */}
+            <StudentProfile />
           </TabsContent>
         </Tabs>
       </div>
