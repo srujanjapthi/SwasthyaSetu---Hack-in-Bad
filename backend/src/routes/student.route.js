@@ -6,6 +6,7 @@ import {
   signInStudent,
 } from "../controllers/student.controller.js";
 import { verifyStudentToken } from "../middlewares/student.middleware.js";
+import { getHealthStatus } from "../controllers/student.controller.js";
 
 const router = express.Router();
 
@@ -18,5 +19,7 @@ router.get(
   verifyStudentToken,
   getAllWeeklyHealthRecords,
 );
+router.get("/health-status", verifyStudentToken, getHealthStatus);
+
 
 export default router;

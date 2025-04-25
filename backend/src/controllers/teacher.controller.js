@@ -5,6 +5,8 @@ import Student from "../models/student.model.js";
 import mongoose from "mongoose";
 import { parse } from "csv-parse";
 import WeeklyHealthRecord from "../models/weekly-health-records.model.js";
+import { getStudentHealthStatusPrompt } from "../constants/prompts.js";
+import { ai } from "../config/ai.js";
 
 export const signInTeacher = async (req, res, next) => {
   try {
@@ -209,6 +211,44 @@ export const getStudentWeeklyHealthRecords = async (req, res, next) => {
       records,
       message: "Records fetched successfully",
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// export const getAllHealthStatus = async (req, res, next) => {
+//   try {
+//     const students = await Student.find({ mentor: req.studentId });
+//     const studentsHealthRecords = await WeeklyHealthRecord.find({
+//       email: { $in: students.map((student) => student.email) },
+//     });
+//     const prompt = getStudentHealthStatusPrompt(studentsHealthRecords);
+//     const response = await ai.models.generateContent({
+//       model: "gemini-2.0-flash",
+//       contents: prompt,
+//     });
+//     const aiText = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+//     return res.json({ health_status: aiText });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+export const getAllHealthStatus = async (req, res, next) => {
+  try {
+    const students = await Student.find({ mentor: req.teacherId });
+    const studentEmails = students.map((student) => student.email);
+    const studentsHealthRecords = await WeeklyHealthRecord.aggregate([
+      { $match: { email: { $in: studentEmails } } },
+      { $group: { _id: "$email", records: { $push: "$$ROOT" } } },
+    ]);
+    const prompt = getStudentHealthStatusPrompt(studentsHealthRecords);
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: prompt,
+    });
+    const aiText = response?.candidates?.[0]?.content?.parts?.[0]?.text;
+    return res.json({ health_status: aiText });
   } catch (error) {
     next(error);
   }
