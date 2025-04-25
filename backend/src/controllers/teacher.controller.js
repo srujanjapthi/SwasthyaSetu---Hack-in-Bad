@@ -4,8 +4,9 @@ import jwt from "jsonwebtoken";
 import Student from "../models/student.model.js";
 import mongoose from "mongoose";
 import { parse } from "csv-parse";
+
 import WeeklyHealthRecord from "../models/weekly-health-records.model.js";
- import fs from "fs"
+import fs from "fs"
 
 export const signInTeacher = async (req, res, next) => {
   try {
@@ -141,6 +142,28 @@ export const parseCsvFile = async (req, res, next) => {
         message: "Student health records uploaded successfully",
       
       });
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export const getAllStudents = async (req, res, next) => {
+  const teacherId = req.teacherId;
+  console.log(teacherId);
+  
+  try {
+    const students = await Student.find({ mentor: teacherId }).populate("mentor").populate("school").select("-password -__v");
+
+    if (!students) {
+      return res.status(404).json({
+        message: "No students found",
+      });
+    }
+
+    return res.status(200).json({
+      students,
+      message: "Students fetched successfully",
     });
   } catch (error) {
     next(error);
