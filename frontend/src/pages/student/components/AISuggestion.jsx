@@ -1,11 +1,23 @@
 import { useGetAIResponse } from "@/api/StudentApi";
 import Markdown from "react-markdown";
 import { motion } from "framer-motion";
-import { Bot, Loader2, Sparkles } from "lucide-react";
+import { Bot, Loader2, Sparkles, RefreshCw } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export default function AISuggestion() {
-  const { data: aiSuggestion, isLoading, refetch } = useGetAIResponse();
+  const { aiSuggestion, isLoading, refetch } = useGetAIResponse();
+  const [isRegenerating, setIsRegenerating] = useState(false);
+
+  const handleRegenerate = async () => {
+    setIsRegenerating(true);
+    try {
+      await refetch();
+    } finally {
+      setIsRegenerating(false);
+    }
+  };
 
   return (
     <motion.div
@@ -28,7 +40,7 @@ export default function AISuggestion() {
         </div>
 
         <div className="flex-1 p-4 overflow-y-auto bg-gradient-to-b from-purple-50/50 to-white dark:from-purple-900/10 dark:to-gray-900">
-          {isLoading ? (
+          {isLoading || isRegenerating ? (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -36,7 +48,9 @@ export default function AISuggestion() {
             >
               <Loader2 className="h-12 w-12 text-purple-600 animate-spin" />
               <p className="text-lg text-purple-600 dark:text-purple-400">
-                Your AI companion is thinking...
+                {isRegenerating
+                  ? "Regenerating response..."
+                  : "Your AI companion is thinking..."}
               </p>
               <div className="flex gap-2">
                 {[...Array(3)].map((_, i) => (
@@ -68,7 +82,6 @@ export default function AISuggestion() {
                   <Bot className="h-5 w-5 text-purple-600 dark:text-purple-300" />
                 </div>
                 <Card className="p-4 max-w-3xl bg-white dark:bg-gray-800 shadow-sm rounded-xl rounded-tl-none">
-                  {/* <Markdown className="prose dark:prose-invert prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-0"> */}
                   <Markdown>
                     {aiSuggestion ||
                       "Hello! How can I support your mental wellbeing today?"}
@@ -96,6 +109,33 @@ export default function AISuggestion() {
                   </motion.div>
                 </Card>
               </div>
+
+              {/* Regenerate Button */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                className="flex justify-center"
+              >
+                <Button
+                  onClick={handleRegenerate}
+                  variant="outline"
+                  className="cursor-pointer gap-2 border-purple-300 text-purple-600 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-300 dark:hover:bg-purple-900/20"
+                  disabled={isRegenerating}
+                >
+                  {isRegenerating ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Regenerating...
+                    </>
+                  ) : (
+                    <>
+                      <RefreshCw className="h-4 w-4" />
+                      Regenerate Response
+                    </>
+                  )}
+                </Button>
+              </motion.div>
             </motion.div>
           )}
         </div>

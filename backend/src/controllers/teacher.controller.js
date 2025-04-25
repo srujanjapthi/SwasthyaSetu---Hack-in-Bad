@@ -9,7 +9,6 @@ import WeeklyHealthRecord from "../models/weekly-health-records.model.js";
 export const signInTeacher = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-    //console.log(email,password)
     if (!email || !password) {
       return res.status(400).json({
         message: "All fields are required",
@@ -17,6 +16,7 @@ export const signInTeacher = async (req, res, next) => {
     }
 
     const teacher = await Teacher.findOne({ email });
+    console.log(teacher);
 
     if (!teacher) {
       return res.status(404).json({
@@ -24,13 +24,11 @@ export const signInTeacher = async (req, res, next) => {
       });
     }
 
-    // const isPasswordMatch = await bcrypt.compare(password,teacher.password);
-
-    // if (!isPasswordMatch) {
-    //   return res.status(400).json({
-    //     message: "Invalid credentials",
-    //   });
-    // }
+    if (password !== teacher.password) {
+      return res.status(400).json({
+        message: "Invalid credentials",
+      });
+    }
 
     const token = jwt.sign({ teacherId: teacher._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
@@ -188,6 +186,21 @@ export const getAllStudents = async (req, res, next) => {
       students,
       message: "Students fetched successfully",
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUser = async (req, res, next) => {
+  try {
+    const teacher = await Teacher.findById(req.teacherId)
+      .select("-password")
+      .populate({
+        path: "school",
+        select: "-password",
+      });
+
+    return res.json(teacher);
   } catch (error) {
     next(error);
   }

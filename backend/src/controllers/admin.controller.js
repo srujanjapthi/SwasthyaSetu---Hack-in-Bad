@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import Admin from "../models/admin.model.js";
 import School from "../models/school.model.js";
 import Teacher from "../models/teacher.model.js";
@@ -22,10 +21,7 @@ export const signUpAdmin = async (req, res, next) => {
       });
     }
 
-    password = await bcrypt.hash(password, 10);
-    req.body.password = password;
     admin = await Admin.create(req.body);
-
     const token = jwt.sign({ adminId: admin._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
@@ -55,8 +51,7 @@ export const signInAdmin = async (req, res, next) => {
       });
     }
 
-    const isPasswordMatch = await bcrypt.compare(password, admin.password);
-    if (!isPasswordMatch) {
+    if (password !== admin.password) {
       return res.status(400).json({
         message: "Invalid credentials",
       });
@@ -73,7 +68,7 @@ export const signInAdmin = async (req, res, next) => {
     });
 
     return res.status(200).json({
-      schoolId: school._id,
+      adminId: admin._id,
       message: "Admin Signed In successfully",
     });
   } catch (error) {
@@ -134,8 +129,8 @@ export const createTeacherProfile = async (req, res, next) => {
 
     teacher = await Teacher.create({
       ...req.body,
-      password: await bcrypt.hash(password, 10),
-      school: new mongoose.Types.ObjectId(school),
+      password,
+      school: new mongoose.Types.ObjectId(String(school)),
     });
 
     res.status(201).json({

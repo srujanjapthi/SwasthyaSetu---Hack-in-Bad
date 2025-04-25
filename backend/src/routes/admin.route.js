@@ -1,5 +1,4 @@
 import express from "express";
-import { root } from "../controllers/admin.controller.js";
 import { getSchools } from "../controllers/admin.controller.js";
 import { getTeachers } from "../controllers/admin.controller.js";
 import { getStudents } from "../controllers/admin.controller.js";
@@ -11,8 +10,6 @@ import {
   createTeacherProfile,
 } from "../controllers/admin.controller.js";
 const router = express.Router();
-
-router.get("/", root);
 
 router.get("/schools", getSchools);
 

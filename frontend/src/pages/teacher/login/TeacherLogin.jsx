@@ -1,13 +1,9 @@
-// import { useAdminLoginRequest } from "@/api/AdminsApi";
+import { useLoginTeacher } from "@/api/TeacherApi";
 import LoginForm from "@/forms/login/LoginForm";
 import { User2 } from "lucide-react";
 
 export default function TeacherLogin() {
-  // const { loginAdmin, isLoading: isLoginRequestLoading } = useAdminLoginRequest();
-  const { loginTeacher, isLoading: isLoginRequestLoading } = {
-    loginTeacher: () => {},
-    isLoading: false,
-  };
+  const { loginTeacher, isLoading: isLoginRequestLoading } = useLoginTeacher();
 
   return (
     <LoginForm
