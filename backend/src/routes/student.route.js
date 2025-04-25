@@ -1,6 +1,7 @@
 import express from "express";
 import {
   getAIChatResponse,
+  getAllWeeklyHealthRecords,
   getUser,
   signInStudent,
 } from "../controllers/student.controller.js";
@@ -12,5 +13,10 @@ router.post("/signin", signInStudent);
 
 router.get("/me", verifyStudentToken, getUser);
 router.get("/ai/chat", verifyStudentToken, getAIChatResponse);
+router.get(
+  "/weekly-health-records/all",
+  verifyStudentToken,
+  getAllWeeklyHealthRecords,
+);
 
 export default router;

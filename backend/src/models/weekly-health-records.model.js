@@ -11,11 +11,11 @@ const weeklyHealthRecordSchema = new Schema(
     height: { type: Number, default: 0 },
     bmi: { type: Number, default: 0 },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const WeeklyHealthRecord = model(
   "WeeklyHealthRecord",
-  weeklyHealthRecordSchema
+  weeklyHealthRecordSchema,
 );
 export default WeeklyHealthRecord;

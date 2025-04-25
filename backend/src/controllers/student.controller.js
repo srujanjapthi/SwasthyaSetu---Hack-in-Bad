@@ -83,3 +83,17 @@ export const getUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getAllWeeklyHealthRecords = async (req, res, next) => {
+  try {
+    const student = await Student.findById(req.studentId);
+    const weeklyHealthRecords = await WeeklyHealthRecord.find({
+      email: student.email,
+    })
+      .sort({ createdAt: -1 })
+      .lean();
+    return res.json(weeklyHealthRecords);
+  } catch (error) {
+    next(error);
+  }
+};
