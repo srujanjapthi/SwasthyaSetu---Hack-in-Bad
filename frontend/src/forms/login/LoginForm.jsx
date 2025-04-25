@@ -22,11 +22,6 @@ import { Mail, Lock, Loader2, ArrowRight } from "lucide-react";
 import PasswordInput from "@/components/ui/password-input";
 import AppLogo from "@/components/AppLogo";
 import { useTheme } from "@/context/ThemeStore";
-// import { useIsLoggedInRequest } from "@/api/AuthApi";
-// import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import Redirect from "@/pages/redirect/Redirect";
-// import { toast } from "sonner";
 
 export const formSchema = z.object({
   email: z
@@ -53,27 +48,6 @@ export default function LoginForm({
       password: "",
     },
   });
-  // const {
-  //   isSignedIn,
-  //   isLoading: isAuthLoading,
-  //   isError: isAuthError,
-  // } = useIsLoggedInRequest();
-  // const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   if (isSignedIn) {
-  //     navigate("/", { replace: true });
-  //     toast("You are already signed in", { icon: "🚨" });
-  //   }
-
-  //   if (isAuthError) {
-  //     toast("Login to your account", { icon: "🚨" });
-  //   }
-  // }, [isSignedIn, isAuthError, navigate]);
-
-  // if (isAuthLoading) {
-  //   return <Redirect />;
-  // }
 
   return (
     <div

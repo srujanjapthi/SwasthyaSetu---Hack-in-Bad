@@ -1,10 +1,16 @@
 import express from "express";
-import { root ,signInStudent} from "../controllers/student.controller.js";
+import {
+  getAIChatResponse,
+  getUser,
+  signInStudent,
+} from "../controllers/student.controller.js";
+import { verifyStudentToken } from "../middlewares/student.middleware.js";
 
 const router = express.Router();
 
-router.get("/", root);
-
 router.post("/signin", signInStudent);
+
+router.get("/me", verifyStudentToken, getUser);
+router.get("/ai/chat", verifyStudentToken, getAIChatResponse);
 
 export default router;

@@ -4,6 +4,8 @@ import StudentHealthCharts from "../components/StudentHealthCharts";
 import BadgesAndActivities from "../components/BadgesAndActivities";
 import WeeklyHealthReports from "../components/WeeklyHealthReports";
 import MedicalRecordsSection from "../components/MedicalRecordsSection";
+import StudentProfile from "../components/StudentProfile";
+import AISuggestion from "../components/AISuggestion";
 
 export default function StudentDashboard() {
   return (
@@ -34,10 +36,10 @@ export default function StudentDashboard() {
             <MedicalRecordsSection />
           </TabsContent>
           <TabsContent value="chat" className="space-y-4">
-            {/* <MentalHealthChat /> */}
+            <AISuggestion />
           </TabsContent>
           <TabsContent value="profile" className="space-y-4">
-            {/* <StudentProfile /> */}
+            <StudentProfile />
           </TabsContent>
         </Tabs>
       </div>
