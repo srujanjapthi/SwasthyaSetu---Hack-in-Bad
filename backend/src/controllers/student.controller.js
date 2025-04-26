@@ -122,5 +122,3 @@ export const getHealthStatus = async (req, res, next) => {
     next(error);
   }
 };
-
-

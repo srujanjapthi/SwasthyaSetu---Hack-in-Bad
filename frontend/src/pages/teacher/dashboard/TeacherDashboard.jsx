@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import AiAssistant from "../components/AiAssistant";
+import AiAssistant from "../components/HealthStatusAI";
 import UploadData from "../components/uploadData";
 import {
   Users,
@@ -142,19 +142,17 @@ const TeacherDashboard = () => {
         : student.status === (activeTab === "atRisk" ? "At Risk" : "Healthy"),
     );
 
-    const handleAIQuery = () => {
-      // Simulate AI response
-      const responses = [
-        "Based on the data, I recommend focusing on nutritional education for students with low BMI.",
-        "The fitness levels are improving overall, but 3 students need targeted exercise programs.",
-        "Alert: Ethan Johnson's BMI is critically low. Please consult with the school nutritionist.",
-        "Your class's average fitness score is 78, which is above the school average of 72.",
-        "Consider implementing weekly fitness challenges to maintain student engagement.",
-      ];
-      setAiResponse(responses[Math.floor(Math.random() * responses.length)]);
-    };
-
-  
+  const handleAIQuery = () => {
+    // Simulate AI response
+    const responses = [
+      "Based on the data, I recommend focusing on nutritional education for students with low BMI.",
+      "The fitness levels are improving overall, but 3 students need targeted exercise programs.",
+      "Alert: Ethan Johnson's BMI is critically low. Please consult with the school nutritionist.",
+      "Your class's average fitness score is 78, which is above the school average of 72.",
+      "Consider implementing weekly fitness challenges to maintain student engagement.",
+    ];
+    setAiResponse(responses[Math.floor(Math.random() * responses.length)]);
+  };
 
   return (
     <div
@@ -183,19 +181,53 @@ const TeacherDashboard = () => {
             </p>
           </div>
           <div className="flex gap-3">
-            <AiAssistant isAIDialogOpen={isAIDialogOpen} setIsAIDialogOpen={setIsAIDialogOpen} aiQuery={aiQuery} setAiQuery={setAiQuery} aiResponse={aiResponse} handleAIQuery={handleAIQuery}/>
-            <UploadData isUploadDialogOpen={isUploadDialogOpen} setIsUploadDialogOpen={setIsUploadDialogOpen} setFile={setFile} handleFileUpload={handleFileUpload} handleUpload={handleUpload} file={file}/>
-            <AddStudent isAddDialogOpen={isAddDialogOpen} setIsAddDialogOpen={setIsAddDialogOpen} newStudent={newStudent} setNewStudent={setNewStudent} handleAddStudent={handleAddStudent}/>
+            <AiAssistant
+              isAIDialogOpen={isAIDialogOpen}
+              setIsAIDialogOpen={setIsAIDialogOpen}
+              aiQuery={aiQuery}
+              setAiQuery={setAiQuery}
+              aiResponse={aiResponse}
+              handleAIQuery={handleAIQuery}
+            />
+            <UploadData
+              isUploadDialogOpen={isUploadDialogOpen}
+              setIsUploadDialogOpen={setIsUploadDialogOpen}
+              setFile={setFile}
+              handleFileUpload={handleFileUpload}
+              handleUpload={handleUpload}
+              file={file}
+            />
+            <AddStudent
+              isAddDialogOpen={isAddDialogOpen}
+              setIsAddDialogOpen={setIsAddDialogOpen}
+              newStudent={newStudent}
+              setNewStudent={setNewStudent}
+              handleAddStudent={handleAddStudent}
+            />
           </div>
         </div>
       </motion.div>
-
       {/* Stats Cards */}
-      <StatsCards isAIDialogOpen={isAIDialogOpen} setIsAIDialogOpen={setIsAIDialogOpen} aiQuery={aiQuery} setAiQuery={setAiQuery} aiResponse={aiResponse} handleAIQuery={handleAIQuery}/>
-
+      <StatsCards
+        isAIDialogOpen={isAIDialogOpen}
+        setIsAIDialogOpen={setIsAIDialogOpen}
+        aiQuery={aiQuery}
+        setAiQuery={setAiQuery}
+        aiResponse={aiResponse}
+        handleAIQuery={handleAIQuery}
+      />
       {/* Student Management Section */}
-      <StudentDetails isAIDialogOpen={isAIDialogOpen} setIsAIDialogOpen={setIsAIDialogOpen} setAiQuery={setAiQuery} allStudentsData={allStudentsData} fitnessColor={fitnessColor} statusColor={statusColor} setActiveTab={setActiveTab} activeTab={activeTab} filteredStudents={filteredStudents} />
-
+      <StudentDetails
+        isAIDialogOpen={isAIDialogOpen}
+        setIsAIDialogOpen={setIsAIDialogOpen}
+        setAiQuery={setAiQuery}
+        allStudentsData={allStudentsData}
+        fitnessColor={fitnessColor}
+        statusColor={statusColor}
+        setActiveTab={setActiveTab}
+        activeTab={activeTab}
+        filteredStudents={filteredStudents}
+      />
       Health Chart
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -205,8 +237,6 @@ const TeacherDashboard = () => {
       >
         <TeacherChart theme={theme} />
       </motion.div>
-
-      
     </div>
   );
 };

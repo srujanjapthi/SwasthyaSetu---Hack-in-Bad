@@ -9,7 +9,7 @@ import {
   createSchoolProfile,
   createTeacherProfile,
 } from "../controllers/admin.controller.js";
-import {verifyAdminToken} from "../middlewares/admin.middleware.js";
+import { verifyAdminToken } from "../middlewares/admin.middleware.js";
 const router = express.Router();
 
 router.get("/me", verifyAdminToken, getUser);

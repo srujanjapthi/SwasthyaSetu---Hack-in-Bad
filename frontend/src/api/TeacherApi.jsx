@@ -47,3 +47,34 @@ export const useLoginTeacher = () => {
 
   return { loginTeacher, isLoading, isError, error };
 };
+
+export const useGetHealthStatus = () => {
+  const getHealthStatus = async () => {
+    const { data } = await axiosInstance.get("/teacher/health-status/all");
+    return data;
+  };
+
+  const {
+    data: healthStatus,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["healthStatus"],
+    queryFn: getHealthStatus,
+  });
+
+  return { healthStatus, isLoading, isError, error };
+};
+
+export const useGetStudentHealthDetails = () => {
+  const getStudentHealthDetails = async () => {
+    const { data } = await axiosInstance.get("/teacher/health-details/all");
+    return data;
+  };
+
+  return useQuery({
+    queryKey: ["studentHealthDetails"],
+    queryFn: getStudentHealthDetails,
+  });
+};

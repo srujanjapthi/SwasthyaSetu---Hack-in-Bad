@@ -9,6 +9,7 @@ import {
   getUser,
   getStudentWeeklyHealthRecords,
   getAllHealthStatus,
+  getStudentHealthDetails,
 } from "../controllers/teacher.controller.js";
 const router = express.Router();
 
@@ -38,5 +39,7 @@ router.post(
 router.get("/me", verifyTeacherToken, getUser);
 
 router.get("/health-status/all", verifyTeacherToken, getAllHealthStatus);
+
+router.get("/health-details/all", verifyTeacherToken, getStudentHealthDetails);
 
 export default router;

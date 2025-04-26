@@ -47,9 +47,7 @@ export default function StudentHealthStats() {
           ? "bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/30 dark:to-green-800/30"
           : "bg-gradient-to-br from-red-50 to-red-100 dark:from-red-900/30 dark:to-red-800/30",
       borderColor:
-        healthStatus === "Healthy\n"
-          ? "border-green-400"
-          : "border-red-400",
+        healthStatus === "Healthy\n" ? "border-green-400" : "border-red-400",
       iconBg:
         healthStatus === "Healthy\n"
           ? "bg-green-100 dark:bg-green-900/30"

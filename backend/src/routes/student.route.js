@@ -21,5 +21,4 @@ router.get(
 );
 router.get("/health-status", verifyStudentToken, getHealthStatus);
 
-
 export default router;

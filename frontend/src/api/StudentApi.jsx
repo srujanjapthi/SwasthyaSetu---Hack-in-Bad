@@ -70,7 +70,7 @@ export const useLoginStudent = () => {
 export const useGetAllWeeklyHealthRecords = () => {
   const getAllWeeklyHealthRecordsRequest = async () => {
     const { data } = await axiosInstance.get(
-      "/student/weekly-health-records/all"
+      "/student/weekly-health-records/all",
     );
     return data;
   };
